@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tj.mystaffmanager.mapper.ScheduleMapper">
+    <!-- 登录验证 -->
+    <select id="getAllScheduleInfo" resultType="com.tj.mystaffmanager.entity.ScheduleEntity">
+        select *
+        from staff_database.schedule_items
+    </select>
+    <!-- 添加代办事项 -->
+    <insert id="addScheduleInfo" parameterType="com.tj.mystaffmanager.entity.ScheduleEntity">
+        insert into staff_database.schedule_items(is_done, done_time, text)
+        VALUES (#{isDone,jdbcType=INTEGER}, #{doneTime,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR})
+    </insert>
+    <!-- 删除代办事项 -->
+    <delete id="deleteScheduleInfoByText" parameterType="java.lang.String">
+        delete
+        from staff_database.schedule_items
+        where text = #{text,jdbcType=VARCHAR}
+    </delete>
+    <!-- 修改待办事项 -->
+    <update id="updateSchedule" parameterType="com.tj.mystaffmanager.entity.ScheduleEntity">
+        update staff_database.schedule_items
+        set is_done   = #{isDone,jdbcType=INTEGER}
+          , done_time = #{doneTime,jdbcType=VARCHAR}
+          , text      = #{text,jdbcType=VARCHAR}
+        where schedule_id = #{scheduleId,jdbcType=INTEGER}
+    </update>
+    <select id="getUserInfoById" resultType="com.tj.mystaffmanager.entity.UserEntity">
+        select staff_name, role_name
+        from staff_database.staff_login
+        where staff_num = #{staffId,jdbcType=INTEGER}
+    </select>
+</mapper>

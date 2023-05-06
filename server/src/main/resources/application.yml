@@ -1,0 +1,18 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/staff_database?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  #  mapper映射文件位置
+  mapper-locations: classpath:mapper/*.xml
+  #  配置entity别名
+  type-aliases-package: com.tj.mystaffmanager.entity
+  configuration:
+    #  MyBatis数据库字段与实体类属性的映射
+    map-underscore-to-camel-case: true
+    #  开启控制台sql日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

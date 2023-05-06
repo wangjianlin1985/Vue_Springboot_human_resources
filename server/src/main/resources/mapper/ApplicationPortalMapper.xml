@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tj.mystaffmanager.mapper.ApplicationMapper">
+    <!-- 请假申请，添加至未完成 -->
+    <insert id="newLeaveAddUndone" parameterType="com.tj.mystaffmanager.entity.ApplicationEntity">
+        insert into staff_database.application_portal_undone(applicate_num, applicate_name, applicate_date,
+                                                             applicate_person, done_conditions)
+        values (#{applicateNum,jdbcType=VARCHAR}, #{applicateName,jdbcType=VARCHAR}, #{applicateDate,jdbcType=VARCHAR},
+                #{applicatePerson,jdbcType=VARCHAR}, #{doneConditions,jdbcType=VARCHAR})
+    </insert>
+    <!-- 查询未完成列表 -->
+    <select id="getAllUndone" resultType="com.tj.mystaffmanager.entity.ApplicationEntity">
+        select *
+        from staff_database.application_portal_undone
+    </select>
+    <!-- 删除未完成列表选择行 -->
+    <delete id="deleteSelectedById" parameterType="java.lang.Integer">
+        delete
+        from staff_database.application_portal_undone
+        where applicate_id = #{applicateId,jdbcType=INTEGER}
+    </delete>
+    <!-- 添加到审批列表 -->
+    <insert id="insertIntoApprove" parameterType="com.tj.mystaffmanager.entity.LeaveApproveEntity">
+        insert into staff_database.approve_leave_list(applicate_num, staff_num, leave_type, start_date, end_date,
+                                                      applicate_reason, staff_name, applicate_date)
+        values (#{applicateNum,jdbcType=VARCHAR}, #{staffNum,jdbcType=VARCHAR}, #{leaveType,jdbcType=VARCHAR},
+                #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR},
+                #{applicateReason,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, #{applicateDate,jdbcType=VARCHAR});
+    </insert>
+    <!-- 请假审批表 -->
+    <select id="getApproveLeaveLists" resultType="com.tj.mystaffmanager.entity.LeaveApproveEntity">
+        select *
+        from staff_database.approve_leave_list
+    </select>
+    <!-- 取消申请后删除对应的审批表内容 -->
+    <delete id="deleteByDate" parameterType="java.lang.String">
+        delete
+        from staff_database.approve_leave_list
+        where applicate_date = #{applicateDate,jdbcType=VARCHAR}
+    </delete>
+    <!-- 查询完成列表 -->
+    <select id="getAllDone" resultType="com.tj.mystaffmanager.entity.ApplicationEntity">
+        select *
+        from staff_database.application_portal_done
+    </select>
+</mapper>

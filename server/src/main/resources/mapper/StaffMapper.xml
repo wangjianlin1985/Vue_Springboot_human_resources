@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tj.mystaffmanager.mapper.StaffMapper">
+    <!-- 查询员工列表 -->
+    <select id="getAllStaff" resultType="com.tj.mystaffmanager.entity.StaffEntity">
+        SELECT *
+        FROM staff_database.staff_lists
+    </select>
+    <!-- 新增员工 -->
+    <insert id="insertStaff" parameterType="com.tj.mystaffmanager.entity.StaffEntity">
+        insert into staff_database.staff_lists(staff_num, staff_name, staff_part, entry_date, card_type, card_num,
+                                               phone_num, work_type)
+        values (#{staffNum,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, #{staffPart,jdbcType=VARCHAR},
+                #{entryDate,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardNum,jdbcType=VARCHAR},
+                #{phoneNum,jdbcType=VARCHAR}, #{workType,jdbcType=VARCHAR})
+    </insert>
+    <!-- 修改员工信息 -->
+    <update id="updateSelectedStaff" parameterType="com.tj.mystaffmanager.entity.StaffEntity">
+        update staff_database.staff_lists
+        set staff_num=#{staffNum,jdbcType=VARCHAR},
+            staff_name=#{staffName,jdbcType=VARCHAR},
+            staff_part=#{staffPart,jdbcType=VARCHAR},
+            entry_date=#{entryDate,jdbcType=VARCHAR},
+            card_type=#{cardType,jdbcType=VARCHAR},
+            card_num=#{cardNum,jdbcType=VARCHAR},
+            phone_num=#{phoneNum,jdbcType=VARCHAR},
+            work_type=#{workType,jdbcType=VARCHAR}
+        where staff_id = #{staffId,jdbcType=INTEGER}
+    </update>
+    <!-- 查询权限列表 -->
+    <select id="getAllPermission" resultType="com.tj.mystaffmanager.entity.UserEntity">
+        SELECT *
+        FROM staff_database.staff_login
+    </select>
+</mapper>
